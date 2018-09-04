@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="championShip"
+            type="com.example.chikhaouidhouha.test.Model.ChampionShip"></variable>
+
+        <variable
+            name="teamViewModel"
+            type="com.example.chikhaouidhouha.test.ViewModel.TeamViewModel"></variable>
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{()->teamViewModel.ClickItemSearch(stringName,championShip.strLeague)}">
+
+        <TextView
+            android:id="@+id/stringName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/text_championship_margin"
+            android:text="@{championShip.strLeague}"
+            android:textAllCaps="false"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </RelativeLayout>
+
+</layout>
