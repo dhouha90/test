@@ -1,5 +1,7 @@
 package com.example.chikhaouidhouha.test.ViewModel;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.content.Intent;
@@ -10,56 +12,38 @@ import android.view.View;
 import com.example.chikhaouidhouha.test.Model.ChampionShip;
 import com.example.chikhaouidhouha.test.Service.HttpResponse;
 import com.example.chikhaouidhouha.test.Utils.StringUtils;
-import com.example.chikhaouidhouha.test.View.ChampionShipList.ChampionShipListAdapter;
 import com.example.chikhaouidhouha.test.View.TeamList.TeamActivity;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class TeamViewModel extends ViewModel implements TeamContract {
     private final String TAG = this.getClass().getName();
+
     @Override
-    public void getListChampionShip(final ChampionShipListAdapter championShipListAdapter) {
-
+    public LiveData<ChampionShip> getListChampionShip() {
+        final MutableLiveData<ChampionShip> data = new MutableLiveData<>();
         HttpResponse httpResponse = new HttpResponse();
-        httpResponse.getListChampion().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe(new Observer<ChampionShip>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+         httpResponse.getListChampion()
+                .subscribe(new Consumer<ChampionShip>() {
+                    @Override
+                    public void accept(ChampionShip championShip) throws Exception {
+                        data.setValue(championShip);
+                    }
+                });
 
-            }
-
-            @Override
-            public void onNext(ChampionShip championShip) {
-                Log.i(TAG,"onNext"+championShip.toString());
-                championShipListAdapter.addData(championShip);
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.i(TAG,"onError"+e.toString());
-
-            }
-
-            @Override
-            public void onComplete() {
-                championShipListAdapter.notifyDataSetChanged();
-
-
-            }
-        });
-
+          return data;
     }
 
     @Override
-    public void ClickItemSearch(View v,String ClubName) {
+    public void ClickItemSearch(View v, String ClubName) {
         Context mContext = v.getContext();
         Intent intent = new Intent(mContext, TeamActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString(StringUtils.CHAMPIONSHIP_NAME,ClubName);
+        bundle.putString(StringUtils.CHAMPIONSHIP_NAME, ClubName);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
 

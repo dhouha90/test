@@ -1,23 +1,34 @@
 package com.example.chikhaouidhouha.test.ViewModel;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
-import android.util.Log;
 
 import com.example.chikhaouidhouha.test.Model.Player;
 import com.example.chikhaouidhouha.test.Service.HttpResponse;
-import com.example.chikhaouidhouha.test.View.PlayerList.PlayerListAdaptater;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Observable;
 
 public class PlayerViewModel extends ViewModel implements PlayerContract {
     private final String TAG = this.getClass().getName();
+
     @Override
-    public void getListPlayer(String teamName, final PlayerListAdaptater mlistAdaptaterPlayer) {
+    public LiveData<Observable<Player>> getListPlayer(String teamName) {
+        final MutableLiveData<Observable<Player>> data = new MutableLiveData<>();
         HttpResponse httpResponse = new HttpResponse();
-        httpResponse.getListPlayer(teamName).observeOn(AndroidSchedulers.mainThread()).observeOn(AndroidSchedulers.mainThread())
+        data.setValue(httpResponse.getListPlayer(teamName));
+        return data;
+
+               /* .subscribe(new Consumer<Player>() {
+                    @Override
+                    public void accept(Player player) throws Exception {
+                        data.setValue(player);
+                    }
+                });
+
+        return data;*/
+               /* .observeOn(AndroidSchedulers.mainThread())
+
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<Player>() {
                     @Override
@@ -43,7 +54,7 @@ public class PlayerViewModel extends ViewModel implements PlayerContract {
                         mlistAdaptaterPlayer.notifyDataSetChanged();
 
                     }
-                });
+                });*/
 
     }
 }

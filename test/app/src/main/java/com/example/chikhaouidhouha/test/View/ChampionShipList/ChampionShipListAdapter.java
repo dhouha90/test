@@ -53,7 +53,8 @@ public class ChampionShipListAdapter extends BaseAdapter implements Filterable {
             inflater = (LayoutInflater) parent.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         }
-        ItemChampionshipAdaptaterBinding itemChampionshipAdaptaterBinding = DataBindingUtil.inflate(inflater, R.layout.item_championship_adaptater, parent, false);
+        ItemChampionshipAdaptaterBinding itemChampionshipAdaptaterBinding = DataBindingUtil
+                .inflate(inflater, R.layout.item_championship_adaptater, parent, false);
         itemChampionshipAdaptaterBinding.setTeamViewModel(new TeamViewModel());
         itemChampionshipAdaptaterBinding.setChampionShip(allChampionShip.get(position));
         return itemChampionshipAdaptaterBinding.getRoot();
