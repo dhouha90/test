@@ -1,13 +1,16 @@
 package com.example.chikhaouidhouha.test.ViewModel;
 
+import android.arch.lifecycle.LiveData;
 import android.view.View;
 
 import com.example.chikhaouidhouha.test.Model.Team;
-import com.example.chikhaouidhouha.test.View.TeamList.TeamListAdaptater;
+
+import io.reactivex.Observable;
 
 public interface ChampionShipContract {
 
-   void searchChampionSHip(String eventName,final TeamListAdaptater mTeamListAdaptater);
-   void clickChampionShip(View v, Team mTeam);
+    LiveData<Observable<Team>> searchChampionSHip(String eventName);
+
+    void clickChampionShip(View v, Team mTeam);
 
 }

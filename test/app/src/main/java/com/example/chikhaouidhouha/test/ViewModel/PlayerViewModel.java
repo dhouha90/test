@@ -19,42 +19,6 @@ public class PlayerViewModel extends ViewModel implements PlayerContract {
         data.setValue(httpResponse.getListPlayer(teamName));
         return data;
 
-               /* .subscribe(new Consumer<Player>() {
-                    @Override
-                    public void accept(Player player) throws Exception {
-                        data.setValue(player);
-                    }
-                });
-
-        return data;*/
-               /* .observeOn(AndroidSchedulers.mainThread())
-
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<Player>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(Player player) {
-                        Log.i(TAG, "onNext: "+ player.toString());
-                        mlistAdaptaterPlayer.addItem(player);
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e)
-                    {
-                        Log.i(TAG, "onError: "+e.toString());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        mlistAdaptaterPlayer.notifyDataSetChanged();
-
-                    }
-                });*/
 
     }
 }

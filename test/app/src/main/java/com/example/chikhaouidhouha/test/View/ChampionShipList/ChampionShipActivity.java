@@ -7,23 +7,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 
 import com.example.chikhaouidhouha.test.Model.ChampionShip;
 import com.example.chikhaouidhouha.test.R;
 import com.example.chikhaouidhouha.test.ViewModel.TeamViewModel;
 import com.example.chikhaouidhouha.test.databinding.ActivityChampionshipBinding;
 
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+
 
 public class ChampionShipActivity extends AppCompatActivity {
-    private final String TAG = this.getClass().getName();
+
     /*dans ce class on va recuperer la liste de ligue qui existe dans  {all_leagues.php}
-    * et quand l'utilisateur tappe le nom d'un lique , on va chercher ca dans la liste
-    * */
+     * et quand l'utilisateur tappe le nom d'un lique , on va chercher ca dans la liste
+     * */
 
     private ActivityChampionshipBinding activityMainBinding;
     private ChampionShipListAdapter adapter = new ChampionShipListAdapter();
-    private TeamViewModel mHomeSearchViewModel ;
+    private TeamViewModel mHomeSearchViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,42 +36,35 @@ public class ChampionShipActivity extends AppCompatActivity {
         activityMainBinding.search.onActionViewExpanded();
         activityMainBinding.search.setIconified(false);
         activityMainBinding.search.clearFocus();
-
         mHomeSearchViewModel = ViewModelProviders.of(this).get(TeamViewModel.class);
-        mHomeSearchViewModel.getListChampionShip().observe(this, new Observer<ChampionShip>() {
+        mHomeSearchViewModel.getListChampionShip().observe(this, new Observer<Observable<ChampionShip>>() {
             @Override
-            public void onChanged(@Nullable ChampionShip championShip) {
-                adapter.addData(championShip);
+            public void onChanged(@Nullable Observable<ChampionShip> championShipObservable) {
+                championShipObservable.subscribe(new io.reactivex.Observer<ChampionShip>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(ChampionShip championShip) {
+                        adapter.addData(championShip);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+
             }
         });
-
-/*.subscribe(new Observer<ChampionShip>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(ChampionShip championShip) {
-                Log.i(TAG,"onNext"+championShip.toString());
-               // championShipListAdapter.addData(championShip);
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.i(TAG,"onError"+e.toString());
-
-            }
-
-            @Override
-            public void onComplete() {
-               // championShipListAdapter.notifyDataSetChanged();
-
-
-            }
-        });*/
-      //  mHomeSearchViewModel.getListChampionShip();
 
         activityMainBinding.search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

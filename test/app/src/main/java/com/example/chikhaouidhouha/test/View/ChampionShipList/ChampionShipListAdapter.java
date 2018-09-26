@@ -29,6 +29,7 @@ public class ChampionShipListAdapter extends BaseAdapter implements Filterable {
         allChampionShip.add(data);
         mData.add(data.getStrLeague());
         mStringFilterList.add(data.getStrLeague());
+
     }
 
     @Override

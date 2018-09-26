@@ -9,12 +9,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 
-import com.example.chikhaouidhouha.test.Model.ChampionShip;
 import com.example.chikhaouidhouha.test.Model.Player;
 import com.example.chikhaouidhouha.test.R;
 import com.example.chikhaouidhouha.test.Utils.StringUtils;
 import com.example.chikhaouidhouha.test.ViewModel.PlayerViewModel;
-import com.example.chikhaouidhouha.test.ViewModel.TeamViewModel;
 
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class PlayerActivity extends AppCompatActivity {
      * */
 
     PlayerListAdaptater mPlayerListAdaptater;
-    PlayerViewModel mPlayerViewModel ;
+    PlayerViewModel mPlayerViewModel;
     String mClubName;
 
     @Override
@@ -48,21 +46,21 @@ public class PlayerActivity extends AppCompatActivity {
             public void onChanged(@Nullable Observable<Player> playerObservable) {
                 playerObservable.toList()
                         .subscribe(new SingleObserver<List<Player>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+                            @Override
+                            public void onSubscribe(Disposable d) {
 
-                    }
+                            }
 
-                    @Override
-                    public void onSuccess(List<Player> players) {
-                        mPlayerListAdaptater.addItem(players);
-                    }
+                            @Override
+                            public void onSuccess(List<Player> players) {
+                                mPlayerListAdaptater.addItem(players);
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
+                            @Override
+                            public void onError(Throwable e) {
 
-                    }
-                });
+                            }
+                        });
 
             }
         });

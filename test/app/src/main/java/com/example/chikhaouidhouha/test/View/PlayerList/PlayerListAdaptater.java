@@ -13,9 +13,6 @@ import com.example.chikhaouidhouha.test.databinding.ItemPlayerAdaptaterBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.SingleObserver;
-
 public class PlayerListAdaptater extends RecyclerView.Adapter<PlayerListAdaptater.PlayerHolder> {
 
     List<Player> mAllPlayer = new ArrayList<>();
@@ -24,8 +21,7 @@ public class PlayerListAdaptater extends RecyclerView.Adapter<PlayerListAdaptate
     }
 
     public void addItem(List<Player> data) {
-       // mAllPlayer.add(data);
-      mAllPlayer=data;
+        mAllPlayer = data;
         notifyDataSetChanged();
     }
 

@@ -1,64 +1,38 @@
 package com.example.chikhaouidhouha.test.ViewModel;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.example.chikhaouidhouha.test.Model.Team;
 import com.example.chikhaouidhouha.test.Service.HttpResponse;
 import com.example.chikhaouidhouha.test.Utils.StringUtils;
 import com.example.chikhaouidhouha.test.View.PlayerList.PlayerActivity;
-import com.example.chikhaouidhouha.test.View.TeamList.TeamListAdaptater;
 
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Observable;
 
 public class ChampionShipViewModel extends ViewModel implements ChampionShipContract {
     private final String TAG = this.getClass().getName();
 
     public Context mContext;
 
-    public ChampionShipViewModel(Context mContext) {
-        this.mContext = mContext;
-    }
-
     public ChampionShipViewModel() {
 
     }
 
     @Override
-    public void searchChampionSHip(String eventName, final TeamListAdaptater mTeamListAdaptater) {
+    public LiveData<Observable<Team>> searchChampionSHip(String eventName) {
 
+        final MutableLiveData<Observable<Team>> data = new MutableLiveData<>();
         HttpResponse httpResponse = new HttpResponse();
-        httpResponse.getListTeam(eventName).observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io()).subscribe(new Observer<Team>() {
-            @Override
-            public void onSubscribe(Disposable d) {
+        data.setValue(httpResponse.getListTeam(eventName));
+        return data;
 
-            }
 
-            @Override
-            public void onNext(Team team) {
-                Log.i(TAG, "onNext: " + team.toString());
-                mTeamListAdaptater.addItem(team);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.i(TAG, "Onerror " + e.toString());
-
-            }
-
-            @Override
-            public void onComplete() {
-                mTeamListAdaptater.notifyDataSetChanged();
-            }
-        });
 
     }
 

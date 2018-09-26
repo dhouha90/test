@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-
 import com.example.chikhaouidhouha.test.Model.Team;
 import com.example.chikhaouidhouha.test.R;
 import com.example.chikhaouidhouha.test.ViewModel.ChampionShipViewModel;
@@ -17,12 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeamListAdaptater extends RecyclerView.Adapter<TeamListAdaptater.TeamHolder> {
-List<Team> mAllAllTeam = new ArrayList<>();
+    List<Team> mAllAllTeam = new ArrayList<>();
 
     public TeamListAdaptater() {
     }
-    public void addItem(Team data) {
-        mAllAllTeam.add(data);
+
+    public void addItem(List<Team> data) {
+        mAllAllTeam = data;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -40,24 +41,22 @@ List<Team> mAllAllTeam = new ArrayList<>();
         holder.feeditemBinding.setPresenter(new ChampionShipViewModel());
 
 
-
     }
 
     @Override
     public int getItemCount() {
 
-            return mAllAllTeam.size();
+        return mAllAllTeam.size();
 
     }
 
-    class TeamHolder extends RecyclerView.ViewHolder{
+    class TeamHolder extends RecyclerView.ViewHolder {
         private ItemTeamAdaptaterBinding feeditemBinding;
-
 
 
         public TeamHolder(ItemTeamAdaptaterBinding viewDataBinding) {
             super(viewDataBinding.getRoot());
-            feeditemBinding=viewDataBinding;
+            feeditemBinding = viewDataBinding;
         }
     }
 }
